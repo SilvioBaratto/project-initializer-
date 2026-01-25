@@ -40,6 +40,12 @@ jobs:
         working-directory: /tmp/test-project/frontend
         run: npm run build
 
+      - name: Generate BAML client
+        working-directory: /tmp/test-project/api
+        run: |
+          pip install baml-py
+          baml-cli generate
+
       - name: Start Docker services
         working-directory: /tmp/test-project
         run: docker compose up -d --build
@@ -80,12 +86,12 @@ jobs:
           docker compose ps
 
           echo ""
-          echo "=== Testing API endpoint ==="
-          curl -sf http://localhost:8000/docs || (echo "API /docs not accessible" && docker compose logs api && exit 1)
+          echo "=== Testing API /health endpoint ==="
+          curl -v http://localhost:8000/health || (echo "API /health not accessible" && docker compose logs api && exit 1)
 
           echo ""
           echo "=== Testing Frontend ==="
-          curl -sf http://localhost:4200 || (echo "Frontend not accessible" && docker compose logs frontend && exit 1)
+          curl -s -o /dev/null -w "%{http_code}" http://localhost:4200 | grep -q "200" || (echo "Frontend not accessible" && docker compose logs frontend && exit 1)
 
           echo ""
           echo "All services are running correctly!"
