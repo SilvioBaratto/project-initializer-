@@ -22,10 +22,10 @@ FROM nginx:alpine
 RUN rm -rf /etc/nginx/conf.d/*
 
 # Copy custom nginx config
-COPY nginx.config /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy built Angular app from builder stage (Angular 20 outputs to browser subdirectory)
-COPY --from=builder /app/dist/f1_frontend/browser /usr/share/nginx/html
+# Copy built Angular app from builder stage
+COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nginx-user && \

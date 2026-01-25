@@ -61,6 +61,7 @@ The generated project includes:
   - PostgreSQL database
   - FastAPI backend
   - Angular frontend with nginx
+  - Adminer database management UI
 
 ## Getting Started
 
@@ -75,6 +76,7 @@ The services will be available at:
 - Frontend: http://localhost:4200
 - API: http://localhost:8000
 - API Docs: http://localhost:8000/docs
+- Adminer: http://localhost:8080
 
 ## License
 
